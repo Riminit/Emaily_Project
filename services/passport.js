@@ -10,12 +10,13 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-	User.findById(id)
-		.then((user) => {
+	try {
+		User.findById(id).then((user) => {
 			done(null, user);
-			return null;
-		})
-		.catch((err) => alert(err));
+		});
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 passport.use(
@@ -27,8 +28,8 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id })
-				.then((existingUser) => {
+			try {
+				User.findOne({ googleId: profile.id }).then((existingUser) => {
 					if (existingUser) {
 						// we already have a record with the given profile ID
 						done(null, existingUser);
@@ -36,12 +37,12 @@ passport.use(
 						//we don't have a user record with this ID, make a new record
 						new User({ googleId: profile.id })
 							.save()
-							.then((user) => done(null, user))
-							.catch((err) => alert(err));
+							.then((user) => done(null, user));
 					}
-					return null;
-				})
-				.catch((err) => alert(err));
+				});
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	)
 );
