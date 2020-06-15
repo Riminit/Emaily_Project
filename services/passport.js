@@ -35,7 +35,8 @@ passport.use(
 						//we don't have a user record with this ID, make a new record
 						new User({ googleId: profile.id })
 							.save()
-							.then((user) => done(null, user));
+							.then((user) => done(null, user))
+							.catch((err) => alert(err));
 					}
 				})
 				.catch((err) => alert(err));
