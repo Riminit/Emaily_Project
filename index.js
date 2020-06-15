@@ -6,10 +6,8 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 
-mongoose.connect(keys.mongoURI),
-	{ useNewUrlParser: true }
-		.then((connect) => console.log('connected to mongodb..'))
-		.catch((e) => console.log('could not connect to mongodb', e));
+mongoose.connect(keys.mongoURI);
+module.exports = { mongoose };
 
 const app = express();
 
