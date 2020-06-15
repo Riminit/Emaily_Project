@@ -13,6 +13,7 @@ passport.deserializeUser((id, done) => {
 	User.findById(id)
 		.then((user) => {
 			done(null, user);
+			return null;
 		})
 		.catch((err) => alert(err));
 });
@@ -38,6 +39,7 @@ passport.use(
 							.then((user) => done(null, user))
 							.catch((err) => alert(err));
 					}
+					return null;
 				})
 				.catch((err) => alert(err));
 		}
