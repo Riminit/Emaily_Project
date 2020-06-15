@@ -24,17 +24,21 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id }).then((existingUser) => {
-				if (existingUser) {
-					// we already have a record with the given profile ID
-					done(null, existingUser);
-				} else {
-					//we don't have a user record with this ID, make a new record
-					new User({ googleId: profile.id })
-						.save()
-						.then((user) => done(null, user));
-				}
-			});
+			User.findOne({ googleId: profile.id })
+				.then((existingUser) => {
+					if (existingUser) {
+						// we already have a record with the given profile ID
+						done(null, existingUser);
+					} else {
+						//we don't have a user record with this ID, make a new record
+						new User({ googleId: profile.id })
+							.save()
+							.then((user) => done(null, user));
+					}
+				})
+				.catch(function (err) {
+					console.log('error: ', err);
+				});
 		}
 	)
 );
