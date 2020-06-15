@@ -10,7 +10,10 @@ module.exports = (app) => {
 	);
 
 	// redirect back to server
-	app.get('/auth/google/callback', passport.authenticate('google'));
+	app.get(
+		'https://warm-retreat-78298.herokuapp.com/auth/google/callback',
+		passport.authenticate('google')
+	);
 
 	app.get('/api/logout', (req, res) => {
 		req.logout();
