@@ -9,14 +9,16 @@ passport.serializeUser((user, done) => {
 	done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-	User.findById(id)
-		.then((user) => {
-			done(null, user);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+passport.deserializeUser(async (id, done) => {
+	try {
+		const user = User.findById(id);
+
+		if (user) {
+			return done(null, user);
+		}
+	} catch (e) {
+		console.log(e);
+	}
 });
 
 passport.use(
@@ -28,20 +30,26 @@ passport.use(
 			proxy: true
 		},
 		async (accessToken, refreshToken, profile, done) => {
-			const existingUser = await User.findOne({ googleId: profile.id });
-			//.then((existingUser) => {
-			if (existingUser) {
-				// we already have a record with the given profile ID
-				return done(null, existingUser);
-			} else {
-				//we don't have a user record with this ID, make a new record
-				const user = new User({ googleId: profile.id }).save();
-				return done(null, user);
+			try {
+				const existingUser = await User.findOne({
+					googleId: profile.id
+				});
+				//.then((existingUser) => {
+				if (existingUser) {
+					// we already have a record with the given profile ID
+					return done(null, existingUser);
+				} else {
+					//we don't have a user record with this ID, make a new record
+					const user = new User({ googleId: profile.id }).save();
+					return done(null, user);
+				}
+				//})
+				// .catch((err) => {
+				// 	console.log(err);
+				// });
+			} catch (e) {
+				console.log(e);
 			}
-			//})
-			// .catch((err) => {
-			// 	console.log(err);
-			// });
 		}
 	)
 );
