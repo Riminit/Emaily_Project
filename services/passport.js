@@ -10,9 +10,15 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-	User.findById(id).then((user) => {
-		done(null, user);
-	});
+	User.findById(id)
+		.then((user, rejected) => {
+			done(null, user);
+			return;
+		})
+		.catch((rejected) => {
+			console.log('rejected eh');
+			return;
+		});
 });
 
 passport.use(
