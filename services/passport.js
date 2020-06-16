@@ -25,7 +25,7 @@ passport.use(
 		},
 		(accessToken, refreshToken, profile, done) => {
 			User.findOne({ googleId: profile.id })
-				.then((existingUser) => {
+				.then((existingUser, rejected) => {
 					if (existingUser) {
 						// we already have a record with the given profile ID
 						done(null, existingUser);
@@ -35,8 +35,8 @@ passport.use(
 							.save()
 							.then((user) => done(null, user));
 					}
-				}, onRejection)
-				.catch((onRejection) => alert(onRejection));
+				})
+				.catch((rejected) => console.log(rejected));
 		}
 	)
 );
