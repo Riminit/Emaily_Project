@@ -10,13 +10,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-	User.findById(id)
-		.then((user) => {
-			done(null, user);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	User.findById(id).then((user) => {
+		done(null, user);
+	});
 });
 
 passport.use(
@@ -24,34 +20,21 @@ passport.use(
 		{
 			clientID: keys.googleClientID,
 			clientSecret: keys.googleClientSecret,
-			callbackURL: '/auth/google/callback',
+			callbackURL: '/auth/google/callback'
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id })
-				.then((existingUser) => {
-					if (existingUser) {
-						// we already have a record with the given profile ID
-						console.log('FOUND ONE!!!');
-						done(null, existingUser);
-					} else {
-						//we don't have a user record with this ID, make a new record
-						new User({ googleId: profile.id })
-							.save()
-							.then((user) => {
-								console.log('Creating new user!');
-								done(null, user);
-							})
-							.catch((err) => {
-								console.log('FAILED TO CREATE!!!');
-								console.log(err);
-							});
-					}
-				})
-				.catch((err) => {
-					console.log('FAILED TO QUERY!!!');
-					console.log(err);
-				});
+			User.findOne({ googleId: profile.id }).then((existingUser) => {
+				if (existingUser) {
+					// we already have a record with the given profile ID
+					done(null, existingUser);
+				} else {
+					//we don't have a user record with this ID, make a new record
+					new User({ googleId: profile.id })
+						.save()
+						.then((user) => done(null, user));
+				}
+			});
 		}
 	)
 );
