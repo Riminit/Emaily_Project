@@ -32,16 +32,24 @@ passport.use(
 				.then((existingUser) => {
 					if (existingUser) {
 						// we already have a record with the given profile ID
+						console.log('FOUND ONE!!!');
 						done(null, existingUser);
 					} else {
 						//we don't have a user record with this ID, make a new record
 						new User({ googleId: profile.id })
 							.save()
-							.then((user) => done(null, user))
-							.catch((err) => console.log(err));
+							.then((user) => {
+								console.log('Creating new user!');
+								done(null, user);
+							})
+							.catch((err) => {
+								console.log('FAILED TO CREATE!!!');
+								console.log(err);
+							});
 					}
 				})
 				.catch((err) => {
+					console.log('FAILED TO QUERY!!!');
 					console.log(err);
 				});
 		}
