@@ -1,27 +1,31 @@
 const passport = require('passport');
 
-try {
-	module.exports = (app) => {
-		// authenticate
-		app.get(
-			'/auth/google',
-			passport.authenticate('google', {
-				scope: ['profile', 'email']
-			})
-		);
+module.exports = (app) => {
+	// authenticate
+	app.get(
+		'/auth/google',
+		passport.authenticate('google', {
+			scope: ['profile', 'email']
+		})
+	);
 
-		// redirect back to server
-		app.get('/auth/google/callback', passport.authenticate('google'));
+	// redirect back to server
+	app.get('/auth/google/callback', passport.authenticate('google'));
 
-		app.get('/api/logout', (req, res) => {
+	app.get('/api/logout', (req, res) => {
+		try {
 			req.logout();
 			res.send(req.user);
-		});
+		} catch (err) {
+			next(err);
+		}
+	});
 
-		app.get('/api/current_user', (req, res) => {
+	app.get('/api/current_user', (req, res) => {
+		try {
 			res.send(req.user);
-		});
-	};
-} catch (err) {
-	next(err);
-}
+		} catch (err) {
+			next(err);
+		}
+	});
+};
