@@ -24,40 +24,19 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			try {
-				User.findOne({ googleId: profile.id }),
-					(err, existingUser) => {
-						if (err) {
-							console.log(
-								'Error!! trying to find user with googleId'
-							);
-							console.log(err);
-							return done(null, false);
-						}
-						// if there is already someone with that googleId
-						if (existingUser) {
-							return done(null, existingUser);
-						} else {
-							// if no user in our db, create a new user with that googleId
-							// save this user
-							new User({ googleId: profile.id }).save(
-								(err, savedUser) => {
-									if (err) {
-										console.log(
-											'Error!! saving the new google user'
-										);
-										console.log(err);
-										return done(null, false);
-									} else {
-										return done(null, savedUser);
-									}
-								}
-							); // closes newGoogleUser.save
-						}
-					};
-			} catch (err) {
-				console.log(err);
-			}
+			User.findOne({ googleId: profile.id })
+				.then((existingUser) => {
+					if (existingUser) {
+						// we already have a record with the given profile ID
+						done(null, existingUser);
+					} else {
+						//we don't have a user record with this ID, make a new record
+						new User({ googleId: profile.id })
+							.save()
+							.then((user) => done(null, user));
+					}
+				}, onRejection)
+				.catch((onRejection) => alert(onRejection));
 		}
 	)
 );
