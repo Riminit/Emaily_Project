@@ -7,11 +7,6 @@ require('./models/User');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
-
-mongoose.connection.on('connected', () => {
-	console.log('MONGOOSE DB IS CONNECTED!!!');
-});
-
 module.exports = { mongoose };
 
 const app = express();
