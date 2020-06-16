@@ -10,15 +10,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-	User.findById(id)
-		.then((user, rejected) => {
-			done(null, user);
-			return;
-		})
-		.catch((rejected) => {
-			console.log('rejected eh');
-			return;
-		});
+	User.findById(id).then((user) => {
+		done(null, user);
+	});
 });
 
 passport.use(
@@ -30,30 +24,19 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id })
-				.then((existingUser, rejected) => {
+			User.findOne({ googleId: profile.id }, rejected)
+				.then((existingUser) => {
 					if (existingUser) {
 						// we already have a record with the given profile ID
 						done(null, existingUser);
 					} else {
 						//we don't have a user record with this ID, make a new record
-						new User({ googleId: profile.id })
+						new User({ googleId: profile.id }, rejected)
 							.save()
-							.then((user, rejected) => {
-								done(null, user);
-								return;
-							})
-							.catch((rejected) => {
-								console.log('rejected');
-								return;
-							});
+							.then((user) => done(null, user)).catch(rejected => console.log('error adding new user'));
 					}
-					return;
 				})
-				.catch((rejected) => {
-					console.log('rejected');
-					return;
-				});
+				.catch(rejected => console.log('error adding new user');
 		}
 	)
 );
