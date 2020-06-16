@@ -6,21 +6,13 @@ const keys = require('../config/keys');
 const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => {
-	try {
-		done(null, user.id);
-	} catch (err) {
-		next(err);
-	}
+	done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-	try {
-		User.findById(id).then((user) => {
-			done(null, user);
-		});
-	} catch (err) {
-		next(err);
-	}
+	User.findById(id).then((user) => {
+		done(null, user);
+	});
 });
 
 passport.use(
@@ -32,21 +24,17 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			try {
-				User.findOne({ googleId: profile.id }).then((existingUser) => {
-					if (existingUser) {
-						// we already have a record with the given profile ID
-						done(null, existingUser);
-					} else {
-						//we don't have a user record with this ID, make a new record
-						new User({ googleId: profile.id })
-							.save()
-							.then((user) => done(null, user));
-					}
-				});
-			} catch (err) {
-				next(err);
-			}
+			await User.findOne({ googleId: profile.id }).then((existingUser) => {
+				if (existingUser) {
+					// we already have a record with the given profile ID
+					done(null, existingUser);
+				} else {
+					//we don't have a user record with this ID, make a new record
+					new User({ googleId: profile.id })
+						.save()
+						.then((user) => done(null, user));
+				}
+			});
 		}
 	)
 );
