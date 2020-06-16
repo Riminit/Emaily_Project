@@ -32,8 +32,8 @@ passport.use(
 			proxy: true
 		},
 		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id }).then((existingUser) => {
-				try {
+			try {
+				User.findOne({ googleId: profile.id }).then((existingUser) => {
 					if (existingUser) {
 						// we already have a record with the given profile ID
 						done(null, existingUser);
@@ -43,10 +43,10 @@ passport.use(
 							.save()
 							.then((user) => done(null, user));
 					}
-				} catch (err) {
-					next(err);
-				}
-			});
+				});
+			} catch (err) {
+				next(err);
+			}
 		}
 	)
 );
