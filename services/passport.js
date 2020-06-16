@@ -33,10 +33,21 @@ passport.use(
 						//we don't have a user record with this ID, make a new record
 						new User({ googleId: profile.id })
 							.save()
-							.then((user) => done(null, user));
+							.then((user, rejected) => {
+								done(null, user);
+								return;
+							})
+							.catch((rejected) => {
+								console.log('rejected');
+								return;
+							});
 					}
+					return;
 				})
-				.catch((rejected) => console.log(rejected));
+				.catch((rejected) => {
+					console.log('rejected');
+					return;
+				});
 		}
 	)
 );
