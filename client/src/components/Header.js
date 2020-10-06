@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Payments from './Payments';
+import logo from '../images/logo.png'
 
 class Header extends Component {
 	renderContent() {
@@ -18,11 +19,11 @@ class Header extends Component {
 
 			default:
 				return [
+					<li key="3" style={{ margin: '0 10px' }}>
+						Credits : {this.props.auth.credits}
+					</li>,
 					<li key="1">
 						<Payments />
-					</li>,
-					<li key="3" style={{ margin: '0 10px' }}>
-						Credits: {this.props.auth.credits}
 					</li>,
 					<li key="2">
 						<a href="/api/logout">Logout</a>
@@ -39,6 +40,7 @@ class Header extends Component {
 						to={this.props.auth ? '/surveys' : '/'}
 						className="left brand-logo"
 					>
+						<img className="responsive-img" src={logo} width="25px" height="25px"/>
 						Emaily
 					</Link>
 					<ul className="right">{this.renderContent()}</ul>
