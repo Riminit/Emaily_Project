@@ -12,7 +12,7 @@ const Landing = () => {
 						Get to know your customers by getting their feedback.
 						<br/>
 						<br/>
-						Send simple Yes / No surveys to multiple reciepients with Emaily within minutes!
+						Send simple Yes / No surveys to multiple recipients with Emaily within minutes!
 						</p>
 					</div>
 					<div class="col s6">
