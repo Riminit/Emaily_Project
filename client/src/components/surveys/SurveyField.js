@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-export default ({ input, label, meta: { error, touched } }) => {
+export default ({ input, label, placeholder, meta: { error, touched } }) => {
 	return (
-		<div className="container" style={{ marginTop: '20px' }}>
-			<label style={{ fontSize: '20px' }}>{label}</label>
-			<input {...input} style={{ marginBottom: '5px' }} />
+		<div style={{ marginTop: '20px' }}>
+			<label>{label}</label>
+			<input {...input} placeholder={placeholder}/>
 			<div className="red-text" style={{ marginBottom: '20px' }}>
 				{touched && error}
 			</div>

@@ -8,7 +8,7 @@ import formFields from './formFields';
 
 class SurveyForm extends Component {
 	renderFields() {
-		return _.map(formFields, ({ label, name }) => {
+		return _.map(formFields, ({ label, name, placeholder }) => {
 			return (
 				<Field
 					key={name}
@@ -16,6 +16,7 @@ class SurveyForm extends Component {
 					type="text"
 					label={label}
 					name={name}
+					placeholder={placeholder}
 				/>
 			);
 		});
@@ -29,17 +30,22 @@ class SurveyForm extends Component {
 						this.props.onSurveySubmit
 					)}
 				>
-					{this.renderFields()}
-					<Link to="/surveys" className="red btn-flat white-text">
-						Cancel
-					</Link>
-					<button
-						type="submit"
-						className="teal btn-flat right white-text"
-					>
-						Next
-						<i className="material-icons right">arrow_forward</i>
-					</button>
+					<div className="container">
+						<h5>Create New Survey</h5>
+						{this.renderFields()}
+					</div>
+					<div className="row">
+						<Link to="/surveys" className="red btn-flat white-text">
+							Cancel
+						</Link>
+						<button
+							type="submit"
+							className="teal btn-flat right white-text"
+						>
+							Next
+							<i className="material-icons right">arrow_forward</i>
+						</button>
+					</div>
 				</form>
 			</div>
 		);
@@ -61,7 +67,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-	validate, //same as validate: validate,
+	validate, // same as validate: validate,
 	form: 'surveyForm',
 	destroyOnUnmount: false
 })(SurveyForm);

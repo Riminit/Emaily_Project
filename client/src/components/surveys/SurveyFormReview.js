@@ -8,7 +8,7 @@ import * as actions from '../../actions';
 const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
 	const reviewFields = _.map(formFields, ({ name, label }) => {
 		return (
-			<div key={name}>
+			<div key={name} style={{ marginBottom: '20px' }}>
 				<label>{label}</label>
 				<div>{formValues[name]}</div>
 			</div>
@@ -16,23 +16,27 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
 	});
 
 	return (
-		<div>
-			<h5>Please confirm your entries</h5>
-			{reviewFields}
-			<button
-				className="yellow darken-3 white-text btn-flat"
-				onClick={onCancel}
-			>
-				Back
-				<i className="material-icons left">arrow_back</i>
-			</button>
-			<button
-				onClick={() => submitSurvey(formValues, history)}
-				className="green btn-flat right white-text"
-			>
-				Send Survey
-				<i className="material-icons right">email</i>
-			</button>
+		<div style={{ marginTop: '20px' }}>
+			<div className="container">
+				<h5>Please confirm your entries</h5>
+				{reviewFields}
+			</div>
+			<div className="row">
+				<a
+					className="yellow darken-3 white-text btn-flat waves-effect waves-light btn"
+					onClick={onCancel}
+				>
+					Back
+					<i className="material-icons left">arrow_back</i>
+				</a>
+				<button
+					onClick={() => submitSurvey(formValues, history)}
+					className="green btn-flat right white-text"
+				>
+					Send Survey
+					<i className="material-icons right">email</i>
+				</button>
+			</div>
 		</div>
 	);
 };
