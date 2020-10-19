@@ -34,8 +34,8 @@ class Header extends Component {
 
 	render() {
 		return (
-			<nav>
-				<div className="nav-wrapper">
+			<nav className="z-depth-0">
+				<div className="container">
 					<Link
 						to={this.props.auth ? '/surveys' : '/'}
 						className="left brand-logo"
@@ -43,7 +43,7 @@ class Header extends Component {
 						<img className="responsive-img" src={logo} width="25px" height="25px"/>
 						Emaily
 					</Link>
-					<ul className="right">{this.renderContent()}</ul>
+					<ul id="nav-mobile" className="right">{this.renderContent()}</ul>
 				</div>
 			</nav>
 		);

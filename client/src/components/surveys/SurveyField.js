@@ -5,10 +5,10 @@ import React from 'react';
 
 export default ({ input, label, placeholder, meta: { error, touched } }) => {
 	return (
-		<div style={{ marginTop: '20px' }}>
+		<div>
 			<label>{label}</label>
 			<input {...input} placeholder={placeholder}/>
-			<div className="red-text" style={{ marginBottom: '20px' }}>
+			<div className="red-text">
 				{touched && error}
 			</div>
 		</div>

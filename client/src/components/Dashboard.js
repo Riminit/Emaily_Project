@@ -4,8 +4,11 @@ import SurveyList from './surveys/SurveyList';
 
 const Dashboard = () => {
 	return (
-		<div>
-			<SurveyList />
+		<div className="container">
+			<h4 className="center">Created Surveys</h4>
+			<div className="row">
+				<SurveyList />
+			</div>
 			<div className="fixed-action-btn">
 				<Link to="/surveys/new" className="btn-floating btn-large teal">
 					<i className="material-icons">add</i>

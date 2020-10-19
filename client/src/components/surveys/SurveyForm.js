@@ -24,16 +24,19 @@ class SurveyForm extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="container">
+				<h4 className="center">Create New Survey</h4>
 				<form
 					onSubmit={this.props.handleSubmit(
 						this.props.onSurveySubmit
 					)}
+
+					className="white"
+
+					style={{margin:"20px auto", padding:"20px"}}
 				>
-					<div className="container">
-						<h5>Create New Survey</h5>
 						{this.renderFields()}
-					</div>
+
 					<div className="row">
 						<Link to="/surveys" className="red btn-flat white-text">
 							Cancel
